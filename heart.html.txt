@@ -1,32 +1,65 @@
-<div class="heart"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moving Heart</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #fff0f6;
+      overflow-x: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-<style>
-.heart {
-width: 100px;
-height: 90px;
-background: red;
-position: relative;
-transform: rotate(-45deg);
-margin: 50px;
-}
+    .heart {
+      position: absolute;
+      font-size: 50px;
+      color: #e0245e;
+      user-select: none;
+      will-change: transform;
+    }
+  </style>
+</head>
+<body>
 
-.heart::before,
-.heart::after {
-content: "";
-width: 100px;
-height: 90px;
-background: red;
-border-radius: 50%;
-position: absolute;
-}
+  <div class="heart">❤️</div>
 
-.heart::before {
-top: -50px;
-left: 0;
-}
+  <script>
+    const heart = document.querySelector('.heart');
+    const screenWidth = window.innerWidth;
+    let position = 0;
+    let speed = 2;
+    let direction = 1; // 1 for right, -1 for left
 
-.heart::after {
-top: 0;
-right: -50px;
-}
-</style>
+    function animate() {
+      position += speed * direction;
+
+      // If the heart reaches the right edge, change direction to left
+      if (position > screenWidth - 50) {
+        direction = -1;
+      }
+      // If it reaches the left edge, change direction to right
+      if (position < 0) {
+        direction = 1;
+      }
+
+      heart.style.transform = `translateX(${position}px)`;
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Optional: Adjust on window resize
+    window.addEventListener('resize', () => {
+      screenWidth = window.innerWidth;
+    });
+  </script>
+
+</body>
+</html>
